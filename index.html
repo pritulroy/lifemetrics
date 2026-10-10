@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LifeMetrics – BMI, Age and Life Statistics</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f7f9;--card:#fff;--ink:#0f2540;--mut:#5b6b7f;--line:#e1e7ee;--green:#1f5e4b;--teal:#2a8c8c;--soft:#e8f2ef;--shadow:0 1px 2px rgba(15,37,64,.05),0 8px 24px rgba(15,37,64,.06);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0d1a2a;--card:#14263b;--ink:#e8eef5;--mut:#9fb0c3;--line:#243a54;--green:#5fbf9f;--teal:#5cc2c2;--soft:#173a37;--shadow:0 8px 24px rgba(0,0,0,.3)}}
+:root[data-theme="dark"]{--bg:#0d1a2a;--card:#14263b;--ink:#e8eef5;--mut:#9fb0c3;--line:#243a54;--green:#5fbf9f;--teal:#5cc2c2;--soft:#173a37;--shadow:0 8px 24px rgba(0,0,0,.3)}
+*,*:before,*:after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(76px + env(safe-area-inset-top,0px))}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.6;background-image:radial-gradient(900px 500px at 85% -5%,rgba(42,140,140,.13),transparent 60%),radial-gradient(700px 400px at -5% 20%,rgba(31,94,75,.09),transparent 60%),linear-gradient(rgba(15,37,64,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(15,37,64,.035) 1px,transparent 1px);background-size:auto,auto,40px 40px,40px 40px}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.2rem;letter-spacing:-.02em}
+.menu{display:flex;align-items:center;gap:26px;font-weight:600;font-size:.93rem;color:var(--mut)}
+.menu a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:12px;padding:12px 20px;font:700 .95rem Manrope,sans-serif;cursor:pointer;transition:transform .15s,box-shadow .15s,background .15s;min-height:44px}
+.btn.p{background:var(--green);color:#fff;box-shadow:0 6px 16px rgba(31,94,75,.25)}
+:root[data-theme="dark"] .btn.p{color:#08201a}
+.btn.p:hover{transform:translateY(-1px)}
+.btn.s{background:var(--card);border-color:var(--line);color:var(--ink)}
+.btn.s:hover{border-color:var(--teal)}
+.burger{display:none;background:none;border:1px solid var(--line);border-radius:10px;width:44px;height:44px;color:var(--ink);cursor:pointer}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;padding:72px 0 64px}
+h1{font-size:clamp(2.2rem,5vw,3.6rem);line-height:1.08;letter-spacing:-.035em;margin:0 0 18px;font-weight:800}
+.lead{color:var(--mut);font-size:1.1rem;max-width:34em;margin:0 0 28px}
+.ctas{display:flex;gap:12px;flex-wrap:wrap}
+.dash{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:var(--shadow);display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mini{background:var(--bg);border:1px solid var(--line);border-radius:16px;padding:14px}
+.mini small{color:var(--mut);font-weight:600;display:block}
+.mini b{font-size:1.5rem;letter-spacing:-.02em}
+.span2{grid-column:1/-1}
+section{padding:56px 0}
+h2{font-size:clamp(1.6rem,3vw,2.2rem);letter-spacing:-.03em;margin:0 0 10px;line-height:1.15}
+.sub{color:var(--mut);max-width:40em;margin:0 0 32px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow)}
+.card h3{margin:14px 0 6px;font-size:1.15rem}
+.card p{color:var(--mut);margin:0 0 18px}
+.ico{width:46px;height:46px;border-radius:13px;background:var(--soft);display:grid;place-items:center;color:var(--green)}
+.step{display:flex;gap:14px}
+.step i{flex:none;width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:700 .9rem Manrope;font-style:normal}
+.step p{margin:2px 0 0;color:var(--mut)}
+.calc{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:22px;align-items:start}
+label{display:block;font-weight:600;font-size:.9rem;margin:14px 0 6px}
+input,select{width:100%;font:500 1rem Manrope,sans-serif;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);min-height:46px}
+input:focus{border-color:var(--teal)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{border:0;background:none;padding:8px 16px;border-radius:9px;font:700 .85rem Manrope;color:var(--mut);cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 4px rgba(15,37,64,.15)}
+.err{color:#b3261e;font-size:.88rem;min-height:1.3em;margin:8px 0 0}
+.res .big{font-size:3.4rem;font-weight:800;letter-spacing:-.04em;line-height:1}
+.pill{display:inline-block;padding:4px 12px;border-radius:99px;font-weight:700;font-size:.85rem;background:var(--soft);color:var(--green)}
+.scale{position:relative;margin:28px 0 8px;height:12px;border-radius:99px;display:flex;overflow:visible}
+.scale span{height:100%}
+.scale span:nth-child(1){flex:18.5;background:#6fa8dc;border-radius:99px 0 0 99px}
+.scale span:nth-child(2){flex:6.5;background:#4fae8a}
+.scale span:nth-child(3){flex:5;background:#e2b24d}
+.scale span:nth-child(4){flex:10;background:#d9825b;border-radius:0 99px 99px 0}
+.mark{position:absolute;top:-8px;width:4px;height:28px;background:var(--ink);border-radius:3px;transform:translateX(-2px);transition:left .5s}
+.legend{display:flex;justify-content:space-between;font-size:.75rem;color:var(--mut)}
+.res ul{padding-left:18px;color:var(--mut);margin:8px 0}
+.note{background:var(--soft);border-radius:12px;padding:12px 14px;font-size:.9rem;color:var(--ink);margin-top:14px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:16px}
+.stat{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat small{color:var(--mut);display:block;font-weight:600}
+.stat b{font-size:1.35rem;letter-spacing:-.02em;word-break:break-word}
+.empty{color:var(--mut)}
+footer{border-top:1px solid var(--line);padding:32px 0;color:var(--mut);font-size:.9rem;margin-top:24px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media (max-width:860px){.hero,.calc,.grid3{grid-template-columns:1fr}.hero{padding-top:40px}.burger{display:block}.menu{display:none;position:absolute;left:0;right:0;top:68px;background:var(--bg);border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;padding:14px 22px 20px;gap:14px}.menu.open{display:flex}.nav .btn.hd{display:none}.menu .btn{display:inline-flex}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+<a class="logo" href="#home" aria-label="LifeMetrics home"><svg width="30" height="30" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="9" fill="#1f5e4b"/><path d="M4 17h6l3-7 5 13 3-6h7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>LifeMetrics</a>
+<nav class="menu" id="menu" aria-label="Main"><a href="#home">Home</a><a href="#bmi">BMI Calculator</a><a href="#age">Age Calculator</a><a href="#stats">Life Statistics</a><a class="btn p" href="#tools" style="color:#fff">Explore Calculators</a></nav>
+<button class="burger" id="burger" aria-label="Toggle menu" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></header>
+
+<main id="home">
+<div class="wrap hero">
+<div>
+<h1>Understand Your Body. Discover Your Life.</h1>
+<p class="lead">Explore your body mass index, calculate your exact age, and discover fascinating estimates about your life—all in one private, easy-to-use experience.</p>
+<div class="ctas"><a class="btn p" href="#bmi">Calculate Your BMI</a><a class="btn s" href="#stats">Explore Life Statistics</a></div>
+</div>
+<div class="dash" aria-hidden="true">
+<div class="mini span2"><small>Sample BMI</small><svg viewBox="0 0 200 110" width="100%" style="max-height:150px"><path d="M20 100A80 80 0 0 1 60 31" stroke="#6fa8dc" stroke-width="14" fill="none"/><path d="M60 31A80 80 0 0 1 120 21" stroke="#4fae8a" stroke-width="14" fill="none"/><path d="M120 21A80 80 0 0 1 163 51" stroke="#e2b24d" stroke-width="14" fill="none"/><path d="M163 51A80 80 0 0 1 180 100" stroke="#d9825b" stroke-width="14" fill="none"/><path d="M100 100L88 38" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/><circle cx="100" cy="100" r="6" fill="var(--ink)"/><text x="100" y="86" text-anchor="middle" font-size="0" >.</text></svg><b>22.4</b> <span class="pill">Healthy range</span></div>
+<div class="mini"><small>Age card</small><b>34 y 2 m</b></div>
+<div class="mini"><small>Next birthday</small><b>47 days</b></div>
+<div class="mini"><small>Heartbeats (est.)</small><b>1.2 B</b></div>
+<div class="mini"><small>Sleep (est.)</small><b>4.1 yrs</b></div>
+<div class="span2" style="font-size:.78rem;color:var(--mut)">Illustrative sample values only.</div>
+</div>
+</div>
+
+<section id="tools"><div class="wrap">
+<h2>Choose a calculator</h2><p class="sub">Use any tool on its own, or all three together.</p>
+<div class="grid3">
+<div class="card"><div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h4l2-5 4 10 2-5h6"/></svg></div><h3>BMI Calculator</h3><p>Understand your BMI and explore general healthy-lifestyle guidance.</p><a class="btn p" href="#bmi">Open BMI Calculator</a></div>
+<div class="card"><div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg></div><h3>Age Calculator</h3><p>Discover your exact age, upcoming birthday, and time elapsed since birth.</p><a class="btn p" href="#age">Open Age Calculator</a></div>
+<div class="card"><div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></div><h3>Life Statistics</h3><p>Explore fascinating estimates about heartbeats, sleep, and breathing.</p><a class="btn p" href="#stats">Open Life Statistics</a></div>
+</div></div></section>
+
+<section id="bmi"><div class="wrap">
+<h2>BMI Calculator</h2><p class="sub">BMI = weight (kg) ÷ height (m)². It is a screening measure, not a diagnosis.</p>
+<div class="calc">
+<div class="card">
+<label>Height</label>
+<div class="seg" role="group" aria-label="Height unit"><button id="hF" aria-pressed="true">ft / in</button><button id="hC" aria-pressed="false">cm</button></div>
+<div id="hFt" style="margin-top:10px"><div class="row"><input id="hft" type="number" inputmode="decimal" min="0" placeholder="Feet" aria-label="Height, feet"><input id="hin" type="number" inputmode="decimal" min="0" placeholder="Inches" aria-label="Height, inches"></div></div>
+<div id="hCm" hidden style="margin-top:10px"><input id="hcm" type="number" inputmode="decimal" min="0" placeholder="Centimetres, e.g. 170" aria-label="Height, centimetres"></div>
+<label>Weight</label>
+<div class="seg" role="group" aria-label="Weight unit"><button id="wK" aria-pressed="true">kg</button><button id="wL" aria-pressed="false">lb</button></div>
+<div style="margin-top:10px"><input id="wkg" type="number" inputmode="decimal" min="0" placeholder="Kilograms, e.g. 68" aria-label="Weight, kilograms"><input id="wlb" type="number" inputmode="decimal" min="0" hidden placeholder="Pounds, e.g. 150" aria-label="Weight, pounds"></div>
+<label for="bage">Age (optional)</label><input id="bage" type="number" inputmode="numeric" placeholder="Years">
+<p class="err" id="berr" role="alert"></p>
+<button class="btn p" id="bgo" style="width:100%">Calculate BMI</button>
+</div>
+<div class="card res" id="bres" aria-live="polite"><p class="empty">Enter your height and weight to see your BMI, a visual scale, your healthy-weight range, and general guidance.</p></div>
+</div></div></section>
+
+<section id="age"><div class="wrap">
+<h2>Age Calculator</h2><p class="sub">Your exact age, next birthday, and time elapsed since birth.</p>
+<div class="calc">
+<div class="card"><label for="dob">Date of birth</label><input id="dob" type="date"><p class="err" id="aerr" role="alert"></p><button class="btn p" id="ago" style="width:100%">Calculate Age</button></div>
+<div class="card" id="ares" aria-live="polite"><p class="empty">Choose your date of birth to see your results.</p></div>
+</div></div></section>
+
+<section id="stats"><div class="wrap">
+<h2>Life Statistics Explorer</h2><p class="sub">Rough estimates based on population averages. Your real numbers will differ.</p>
+<div class="calc">
+<div class="card"><label for="dob2">Date of birth</label><input id="dob2" type="date"><p class="err" id="serr" role="alert"></p><button class="btn p" id="sgo" style="width:100%">Show Estimates</button>
+<p style="color:var(--mut);font-size:.85rem;margin-bottom:0">Assumptions: about 70 heartbeats and 15 breaths per minute on average, and about 8 hours of sleep per day.</p></div>
+<div class="card" id="sres" aria-live="polite"><p class="empty">Choose your date of birth to explore your estimates.</p></div>
+</div></div></section>
+
+<section><div class="wrap">
+<h2>How it works</h2><p class="sub">Three simple steps.</p>
+<div class="grid3">
+<div class="step"><i>1</i><div><b>Enter your details</b><p>Add your height, weight, or date of birth.</p></div></div>
+<div class="step"><i>2</i><div><b>See your results</b><p>Get clear numbers with visual scales and context.</p></div></div>
+<div class="step"><i>3</i><div><b>Explore further</b><p>Use the calculators together, or on their own.</p></div></div>
+</div></div></section>
+
+<section><div class="wrap grid3" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr))">
+<div class="card"><h3 style="margin-top:0">Privacy first</h3><p style="margin:0">All calculations happen locally in your browser. No account is needed, and nothing you enter is stored or sent to a server.</p></div>
+<div class="card"><h3 style="margin-top:0">Health disclaimer</h3><p style="margin:0">LifeMetrics provides estimates and educational information, not medical diagnoses or advice. Talk with a qualified health professional about your health.</p></div>
+</div></section>
+</main>
+<footer><div class="wrap"><span><b style="color:var(--ink)">LifeMetrics</b> · Estimates for education, not diagnosis.</span><span>Made by <a href="https://pritulroy.github.io/pritul-portfolio/" target="_blank" rel="noopener noreferrer" style="color:var(--ink);font-weight:700;text-decoration:underline;text-underline-offset:3px">Pritul Roy</a></span></div></footer>
+
+<script>
+const $=id=>document.getElementById(id);
+$('burger').onclick=()=>{const o=$('menu').classList.toggle('open');$('burger').setAttribute('aria-expanded',o)};
+document.querySelectorAll('#menu a').forEach(a=>a.addEventListener('click',()=>$('menu').classList.remove('open')));
+let hc=false,imp=false;
+const seg=(a,b,on)=>{$(a).setAttribute('aria-pressed',!on);$(b).setAttribute('aria-pressed',on)};
+function hUnit(c){hc=c;seg('hF','hC',c);$('hFt').hidden=c;$('hCm').hidden=!c}
+function wUnit(l){imp=l;seg('wK','wL',l);$('wkg').hidden=l;$('wlb').hidden=!l}
+$('hF').onclick=()=>hUnit(false);$('hC').onclick=()=>hUnit(true);
+$('wK').onclick=()=>wUnit(false);$('wL').onclick=()=>wUnit(true);
+const num=id=>{const s=$(id).value.trim();return s===''?NaN:Number(s)};
+$('bgo').onclick=()=>{
+ let h,w;const e=$('berr');e.textContent='';
+ const bad=m=>{e.textContent=m};
+ if(hc){const c=num('hcm');
+  if(isNaN(c))return bad('Enter your height in centimetres.');
+  if(c<=0)return bad('Height must be greater than zero.');
+  if(c<90||c>250)return bad('Enter a height between 90 and 250 cm.');
+  h=c/100}
+ else{const ft=num('hft'),inn=$('hin').value.trim()===''?0:num('hin');
+  if(isNaN(ft))return bad('Enter your height in feet.');
+  if(isNaN(inn))return bad('Enter a valid number of inches.');
+  if(ft<=0)return bad('Feet must be greater than zero.');
+  if(inn<0)return bad('Inches cannot be negative.');
+  if(inn>=12)return bad('Inches must be less than 12.');
+  h=(ft*12+inn)*0.0254;
+  if(h<0.9||h>2.5)return bad('Enter a height between about 3 ft and 8 ft.')}
+ {const v=num(imp?'wlb':'wkg');
+  if(isNaN(v))return bad(imp?'Enter your weight in pounds.':'Enter your weight in kilograms.');
+  if(v<=0)return bad('Weight must be greater than zero.');
+  w=imp?v*0.45359237:v;
+  if(w<20||w>400)return bad(imp?'Enter a weight between 44 and 880 lb.':'Enter a weight between 20 and 400 kg.')}
+ const a=$('bage').value;if(a!==''&&!(+a>=0&&+a<=120)){e.textContent='Enter an age between 0 and 120, or leave it blank.';return}
+ const bmi=w/(h*h),r=$('bres');
+ const note=`<div class="note"><b>What BMI can and cannot tell you.</b> BMI compares weight to height. It does not measure body fat, muscle, bone density, or where weight is carried, and it cannot diagnose disease. Results can be less accurate for athletes, older adults, pregnancy, and some ethnic groups.</div>`;
+ if(a!==''&&+a<18){r.innerHTML=`<div class="big">${bmi.toFixed(1)}</div><p><span class="pill">Adult categories not applied</span></p><p>For children and teenagers, BMI is interpreted using age- and sex-specific BMI-for-age percentiles. Adult categories do not apply. Ask a pediatrician or school nurse to assess growth.</p>${note}`;return}
+ let c=bmi<18.5?'Underweight':bmi<25?'Healthy-weight range':bmi<30?'Overweight':'Obesity';
+ const pos=Math.min(Math.max((bmi-10)/(40-10),0),1)*100;
+ const lo=18.5*h*h,hi=24.9*h*h;
+ const rng=imp?`${(lo/0.45359237).toFixed(0)}–${(hi/0.45359237).toFixed(0)} lb`:`${lo.toFixed(1)}–${hi.toFixed(1)} kg`;
+ r.innerHTML=`<div class="big">${bmi.toFixed(1)}</div><p><span class="pill">${c}</span></p>
+ <div class="scale" role="img" aria-label="BMI scale from 10 to 40"><span></span><span></span><span></span><span></span><div class="mark" style="left:${pos}%"></div></div>
+ <div class="legend"><span>10</span><span>18.5</span><span>25</span><span>30</span><span>40+</span></div>
+ <p style="margin-top:18px"><b>Estimated healthy-weight range for your height:</b> ${rng} (BMI 18.5–24.9).</p>
+ <b>General guidance</b><ul><li>Adults are advised to aim for at least 150 minutes of moderate activity per week, plus muscle-strengthening on 2 or more days.</li><li>Include plenty of vegetables, fruit, whole grains, and enough sleep.</li><li>Small, steady habits tend to last longer than drastic changes.</li></ul>
+ ${bmi<18.5||bmi>=25?'<p style="color:var(--mut)">A health professional can help you interpret this result alongside your overall health, and advise on any changes.</p>':''}${note}`;
+};
+function parse(id,eid){const e=$(eid);e.textContent='';const v=$(id).value;if(!v){e.textContent='Choose your date of birth.';return null}
+ const [y,m,d]=v.split('-').map(Number);const b=new Date(y,m-1,d),n=new Date();
+ if(b>n){e.textContent='Date of birth cannot be in the future.';return null}
+ if(y<1900){e.textContent='Enter a date after 1900.';return null}
+ return b}
+const f=n=>Math.floor(n).toLocaleString('en-US');
+$('ago').onclick=()=>{const b=parse('dob','aerr');if(!b)return;
+ const n=new Date();let y=n.getFullYear()-b.getFullYear(),m=n.getMonth()-b.getMonth(),d=n.getDate()-b.getDate();
+ if(d<0){m--;d+=new Date(n.getFullYear(),n.getMonth(),0).getDate()}
+ if(m<0){y--;m+=12}
+ const t0=new Date(n.getFullYear(),n.getMonth(),n.getDate());
+ let nb=new Date(n.getFullYear(),b.getMonth(),b.getDate());if(nb<t0)nb=new Date(n.getFullYear()+1,b.getMonth(),b.getDate());
+ const days=Math.round((t0-new Date(b.getFullYear(),b.getMonth(),b.getDate()))/864e5),until=Math.round((nb-t0)/864e5);
+ const dn=nb.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'});
+ $('ares').innerHTML=`<div class="big" style="font-size:2.4rem;font-weight:800;letter-spacing:-.03em">${y} years, ${m} months, ${d} days</div>
+ <p style="color:var(--mut)">${until===0?'Happy birthday! 🎉 Today is your birthday.':`Next birthday in <b style="color:var(--ink)">${until} days</b> (${dn}).`}</p>
+ <div class="stats"><div class="stat"><small>Total days</small><b>${f(days)}</b></div><div class="stat"><small>Total weeks</small><b>${f(days/7)}</b></div><div class="stat"><small>Total months</small><b>${f(y*12+m)}</b></div><div class="stat"><small>Total hours (approx.)</small><b>${f(days*24)}</b></div></div>`};
+$('sgo').onclick=()=>{const b=parse('dob2','serr');if(!b)return;
+ const mins=(new Date()-b)/6e4,yrs=mins/525960;
+ const big=n=>n>=1e9?(n/1e9).toFixed(2)+' billion':n>=1e6?(n/1e6).toFixed(1)+' million':f(n);
+ $('sres').innerHTML=`<div class="stats" style="margin-top:0">
+ <div class="stat"><small>Heartbeats (est.)</small><b>${big(mins*70)}</b></div>
+ <div class="stat"><small>Breaths (est.)</small><b>${big(mins*15)}</b></div>
+ <div class="stat"><small>Time asleep (est.)</small><b>${(yrs/3).toFixed(1)} years</b></div>
+ <div class="stat"><small>Hours slept (est.)</small><b>${f(mins/60/3)}</b></div></div>
+ <div class="note">These are averages applied across your whole life. Heart rate, breathing, and sleep vary by age and individual, so treat them as fun estimates, not measurements.</div>`};
+</script>
+</body>
+</html>
